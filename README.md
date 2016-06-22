@@ -4,6 +4,7 @@ Insight Data Science Project: Good Heart. Predict readmission risk of ICU patien
 # How it works
 
 Data source: https://mimic.physionet.org/
+
 Postgres code: https://github.com/MIT-LCP/mimic-code, modified as required. Mostly just to get sapsII scores etc for the last day at ICU
 
 Uncomment/comment code as needed
