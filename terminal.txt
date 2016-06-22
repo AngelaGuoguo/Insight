@@ -1,0 +1,16 @@
+# filter file.csv by filer_list
+# if column 2 of file.csv is in filter_list, print to stdout
+# I DID NOT come up with the following smart line. Unfortunately I couldn't trace back to the source
+awk -F, 'FNR==NR{k[$1]=1;next;} FNR==1 || k[$2]' filter_list file.csv
+
+# remove [ and ]
+sed 's/\[//g' file
+# \[ \] for brackets \" for quote and \s for space
+
+# for feasible nlp, subsample doc notes with
+# http://stackoverflow.com/questions/9245638/select-random-lines-from-a-file-in-bash
+# do a five fold reduction
+shuf -n N a > b
+
+to amazon:
+ssh -i path to key ubuntu@52.26.212.160
