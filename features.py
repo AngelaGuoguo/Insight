@@ -1,3 +1,9 @@
+"""
+Feature construction
+Retrieve various information from postgres database
+and aggregate into feature vectors
+"""
+
 import psycopg2
 import pandas as pd
 import sklearn
@@ -5,8 +11,9 @@ from util import load, load_sql
 import numpy as np
 
 
+# extract comorbidity measurement represented by elixhauser scores
+# categorical
 def comorb_scores(con, hids):
-    # extract elixhauser scores
     elix = load_sql(con, '*', 'elixhauser_ahrq')
     elix = elix[elix['hadm_id'].isin(hids)]
     elix = elix.drop('hadm_id', axis=1).sort_values(by=['subject_id'])
@@ -14,6 +21,8 @@ def comorb_scores(con, hids):
     return elix
 
 
+# combine physiological scores
+# numerical
 def generate_phys_scores(con, icu_list, p_list):
     oasis = load_sql(con, "subject_id,icustay_id, oasis", "mimiciii.oasis")
     oasis = oasis[oasis['icustay_id'].isin(icu_list)].\
@@ -64,6 +73,8 @@ def generate_phys_scores(con, icu_list, p_list):
     return v
 
 
+# Given a list of patients (otherwise all patients included)
+# output a matrix of feature vectors
 def generate_features(provided_list=None):
     con = psycopg2.connect(database='mimic', user='mimic', host='localhost',
                            password='mimic')

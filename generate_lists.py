@@ -1,5 +1,7 @@
-# use this file to generate list of patients for different purposes
-# Version II
+"""
+use this file to generate list of patients for different purposes
+"""
+
 import psycopg2
 import pandas as pd
 import util

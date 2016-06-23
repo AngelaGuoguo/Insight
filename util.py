@@ -1,11 +1,11 @@
+"""
+A bunch of helper functions
+"""
+
 from datetime import datetime
 import pandas as pd
 import numpy as np
 import string
-
-'''
-A bunch of helper functions
-'''
 
 
 # load postgres database
@@ -18,13 +18,14 @@ def load_sql(con, select, db):
     return pd.read_sql_query(sql_query, con)
 
 
+# convert string to time using specific format
 def convert_time(x):
     if type(x) != str:
         print "Invalid ", x
     return datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
 
 
-# save some typing for loading csv
+# loading csv
 def load(path, h=1, cols=None, ddtype=None):
     if h == 0:
         return pd.read_csv(path, header=None, usecols=cols, dtype=ddtype)

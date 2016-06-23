@@ -1,3 +1,10 @@
+"""
+!!! INCOMPLETE !!!
+Though I completed the most hardware consuming step: lda,
+I decided to stop here and didn't continue feature generation
+and such, for the sake of ROI
+"""
+
 import psycopg2
 import pandas as pd
 import util
@@ -8,14 +15,6 @@ from nltk.stem.porter import PorterStemmer
 import math
 import gensim
 from gensim import corpora, models
-
-
-'''
-!!! INCOMPLETE !!!
-Though I completed the most hardware consuming step: lda,
-I decided to stop here and didn't continue feature generation
-and such, for the sake of ROI
-'''
 
 
 # retrive notes from postseq
