@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>ICU Safe Discharge</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/article.css') }}">
+  
+  </head>
+  <body>
+  <ul>
+<li><a href="/">Home</a></li>
+<li><a href="/contact">Contact</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/slides">Slides</a></li>
+</ul>
+    <div class="container">
+      <div class="column-left">
+      <h1>ICU Safe Discharge</h1>
+    		<h3>Please enter number of patients<br>
+    		for risk ranking</h3>
+    			<div id="content">
+                <form method="post" action="{{ url_for('predict') }}">
+                  <input type="text" name="pid" /><br />
+						<!--<input type="submit" name="Submit" value="Most ready"/>-->                  
+                  <input type="submit" name="Submit" value="Rank by risk"/>
+                </form>
+            </div>
+            <h3>Or enter patient ID's, separated by comma, e.g. "18,3"</h3>
+            <div id="content">
+                <form method="post" action="{{ url_for('predict_list') }}">
+                  <textarea id="t1" name="pids"></textarea><br>
+						<!--<input type="submit" name="Submit" value="Most ready"/>-->                  
+                  <input type="submit" name="Submit" value="Rank by risk"/>
+                </form>
+            </div>
+    
+      </div>
+      <div class="column-center">
+      <h2>Results list</h2>
+      <a href="#" id="calculate2"><span id="result"></span></a>
+      </div>
+   <div class="column-right">
+   <h2>Details</h2>
+   <span id="result2"></span>
+   </div>
+    </div>
+  </body>
+</html>

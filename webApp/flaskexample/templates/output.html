@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>ICU Safe Discharge</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- Plotly.js -->
+  		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/article.css') }}">
+  
+  <script type=text/javascript>
+  
+    var num=7;
+    $(function() {
+      $('a#calculate2').bind('click', function() {
+        $.getJSON('/_details', {
+          id: num
+        }, function(data) {
+           var tmp=data.result;
+           var scores=(data.result2).split(", ");
+           var splitted = tmp.split(", ");
+           
+				$("#result2").text("");         
+           
+				$("#result2").append("<h3>Critical scores</h3>");
+				$("#result2").append("(+/-)positive/negative association with readmission<br><br>");
+           $("#result2").append("(-)Severity illness score :");
+           $("#result2").append(scores[0]);
+  				
+           $("#result2").append("<br>");
+           $("#result2").append("(+)Organ failure assessment :");
+           
+           $("#result2").append(scores[1]);
+				$("#result2").append("<br>");
+           $("#result2").append("(-)Acute physiology score :");
+           $("#result2").append(scores[2]);
+           	$("#result2").append("<br>");
+           $("#result2").append("(+)Acute physiology score, last day :");
+           $("#result2").append(scores[3]);
+				$("#result2").append("<br><br>");
+           $("#result2").append("<h3>Conditions:<h3>");
+           if (splitted.length==0) {
+           	$("#result2").append(" None");
+           } else {
+           //$("#result2").append("<br>");
+	           for (var i=0;i<splitted.length;i++) {
+   	        	 var word="<a>".concat(splitted[i].substring(1,splitted[i].length-1))
+      	     	 word=word.concat("</a><br>")
+         	  	$("#result2").append(word);
+           	}
+           }
+        });
+        return false;
+      });
+    });
+  </script>
+  </head>
+  <body>
+  <ul>
+<li><a href="/">Home</a></li>
+<li><a href="/contact">Contact</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/slides">Slides</a></li>
+</ul>
+    <div class="container">
+      <div class="column-left">
+      <h1>ICU Safe Discharge</h1>
+    <h3>Please enter number of patients<br>
+    for risk ranking</h3>
+    		<div id="content">
+                <form method="post" action="{{ url_for('predict') }}">
+                  <input type="text" name="pid" /><br />
+						<!--<input type="submit" name="Submit" value="Most ready"/>  -->                
+                  <input type="submit" name="Submit" value="Rank by risk"/>
+                </form>
+            </div>
+            <h3>Or enter patient ID's, separated by comma, e.g. "18,3"</h3>
+            <div id="content">
+                <form method="post" action="{{ url_for('predict_list') }}">
+                  <textarea id="t1" name="pids"></textarea><br>
+				<!--		<input type="submit" name="Submit" value="Most ready"/>-->                  
+                  <input type="submit" name="Submit" value="Rank by risk"/>
+                </form>
+            </div>
+      </div>
+      <div class="column-center">
+      <h2>Results list</h2>
+        <h3> Click on IDs for details:<span id="result" ></span></h3>
+        <table>
+        <tr><td></td>
+			<td><table class="meter" width="200px"><tr><td class="f1" style="width: 50%">Risk</td><td class="f2" style="width:50%"></td></tr></table>
+        </tr>
+      {%for i in plist%}
+      <tr>
+        <td><a href="#" onclick="num= {{i[2] |int }};return false;" id="calculate2">{{i[2] |int }}</a></td>
+<td><table class="meter" width="200px"><tr><td class="f1" style="width: {{i[1]*100}}%"/><td class="f2" style="width: {{i[0]*100}}%"/></tr></table>
+</td>
+		</tr>        
+        {%endfor%}
+        </table>
+      </div>
+   <div class="column-right">
+   <h2>Details</h2>
+   <span id="result2"></span>
+   </div>
+    </div>
+  </body>
+</html>
